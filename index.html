@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drag & Drop: Beweis k = ln(b)</title>
+  <style>
+    :root { --gap: 14px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #f6f7fb; color: #111; }
+    header { padding: 18px 16px; background: white; border-bottom: 1px solid #e6e6ef; }
+    header h1 { margin: 0 0 6px 0; font-size: 18px; }
+    header p { margin: 0; font-size: 14px; color: #333; line-height: 1.35; }
+    main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .grid { display: grid; gap: var(--gap); grid-template-columns: 1fr; }
+    @media (min-width: 900px){ .grid { grid-template-columns: 1.1fr 0.9fr; } }
+    .card { background: white; border: 1px solid #e6e6ef; border-radius: 14px; padding: 14px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+    .card h2 { margin: 0 0 10px 0; font-size: 16px; }
+    .step { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 10px 10px 12px; border: 1px solid #eee; border-radius: 12px; margin: 10px 0; }
+    .math { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; background: #fafafa; border: 1px solid #eee; border-radius: 10px; padding: 10px; overflow-x: auto; }
+    .dropzone { border: 2px dashed #cfd3ff; background: #f4f5ff; border-radius: 12px; padding: 10px; min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .dropzone.dragover { border-color: #7a82ff; background: #eef0ff; }
+    .placeholder { color: #555; font-size: 14px; }
+    .chip { font-size: 12px; padding: 4px 8px; border-radius: 999px; border: 1px solid #ddd; background: #fff; color: #333; white-space: nowrap;}
+    .chip.ok { border-color: #b7f0c6; background: #f2fff6; color: #0b6b2b; }
+    .chip.bad { border-color: #ffd1d1; background: #fff3f3; color: #8a1111; }
+    .bank { display: grid; gap: 10px; }
+    .draggable { border: 1px solid #e6e6ef; border-radius: 12px; padding: 10px; background: #fff; cursor: grab; }
+    .draggable:active { cursor: grabbing; }
+    .draggable[aria-grabbed="true"] { outline: 2px solid #7a82ff; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    button { border: 1px solid #ddd; background: white; border-radius: 12px; padding: 10px 12px; font-size: 14px; cursor: pointer; }
+    button.primary { border-color: #7a82ff; background: #7a82ff; color: white; }
+    .note { font-size: 13px; color: #444; line-height: 1.35; }
+    .footer { margin-top: 16px; font-size: 12px; color: #555; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Zuordnungs‑Puzzle: Warum gilt k = ln(b)?</h1>
+    <p>Ordne zu jedem Rechenschritt die passende Erklärung (rechts) zu. Ziel: Aus <span class="math">b^t = e^{k t}</span> folgt <span class="math">k = ln(b)</span>.</p>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="card" aria-labelledby="stepsTitle">
+        <h2 id="stepsTitle">Rechenschritte</h2>
+
+        <div class="step" data-correct="E1">
+          <div class="math">R1&nbsp;&nbsp; f(t)=a·b^t</div>
+          <div class="dropzone" data-step="R1">
+            <span class="placeholder">Ziehe hier die passende Erklärung hinein…</span>
+            <span class="chip" aria-live="polite">—</span>
+          </div>
+        </div>
+
+        <div class="step" data-correct="E2">
+          <div class="math">R2&nbsp;&nbsp; f(t)=a·e^{k t}</div>
+          <div class="dropzone" data-step="R2">
+            <span class="placeholder">Ziehe hier die passende Erklärung hinein…</span>
+            <span class="chip" aria-live="polite">—</span>
+          </div>
+        </div>
+
+        <div class="step" data-correct="E3">
+          <div class="math">R3&nbsp;&nbsp; a·b^t = a·e^{k t}</div>
+          <div class="dropzone" data-step="R3">
+            <span class="placeholder">Ziehe hier die passende Erklärung hinein…</span>
+            <span class="chip" aria-live="polite">—</span>
+          </div>
+        </div>
+
+        <div class="step" data-correct="E4">
+          <div class="math">R4&nbsp;&nbsp; b^t = e^{k t}</div>
+          <div class="dropzone" data-step="R4">
+            <span class="placeholder">Ziehe hier die passende Erklärung hinein…</span>
+            <span class="chip" aria-live="polite">—</span>
+          </div>
+        </div>
+
+        <div class="step" data-correct="E5">
+          <div class="math">R5&nbsp;&nbsp; b = e^k &nbsp;&nbsp;(t=1)</div>
+          <div class="dropzone" data-step="R5">
+            <span class="placeholder">Ziehe hier die passende Erklärung hinein…</span>
+            <span class="chip" aria-live="polite">—</span>
+          </div>
+        </div>
+
+        <div class="step" data-correct="E6">
+          <div class="math">R6&nbsp;&nbsp; ln(b) = ln(e^k)</div>
+          <div class="dropzone" data-step="R6">
+            <span class="placeholder">Ziehe hier die passende Erklärung hinein…</span>
+            <span class="chip" aria-live="polite">—</span>
+          </div>
+        </div>
+
+        <div class="step" data-correct="E7">
+          <div class="math">R7&nbsp;&nbsp; k = ln(b)</div>
+          <div class="dropzone" data-step="R7">
+            <span class="placeholder">Ziehe hier die passende Erklärung hinein…</span>
+            <span class="chip" aria-live="polite">—</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="checkBtn">Prüfen</button>
+          <button id="resetBtn">Zurücksetzen</button>
+        </div>
+        <p class="note">Tipp: Du kannst eine Erklärung auch wieder herausziehen und an eine andere Stelle legen (Doppelklick → zurück in die Bank).</p>
+      </section>
+
+      <aside class="card" aria-labelledby="bankTitle">
+        <h2 id="bankTitle">Erklärungen (zum Ziehen)</h2>
+        <div class="bank" id="bank"></div>
+        <p class="note">Ziehe jede Karte in genau eine Drop‑Zone. Doppelklick auf eine Karte legt sie zurück in die Bank.</p>
+        <div class="footer">Offline nutzbar: Datei lokal öffnen oder in die Schulcloud hochladen.</div>
+      </aside>
+    </div>
+  </main>
+
+<script>
+  const EXPLANATIONS = [
+    { id: "E1", text: "Exponentielles Wachstum kann mit einer Potenzfunktion zur Basis b beschrieben werden." },
+    { id: "E2", text: "Dasselbe Wachstum kann auch mit einer Exponentialfunktion zur Basis e dargestellt werden." },
+    { id: "E3", text: "Da beide Funktionen dieselbe Entwicklung beschreiben, müssen ihre Funktionswerte übereinstimmen." },
+    { id: "E4", text: "Der Faktor a steht auf beiden Seiten und kann gekürzt werden." },
+    { id: "E5", text: "Durch Einsetzen von t=1 erhält man den Wachstumsfaktor nach einer Zeiteinheit." },
+    { id: "E6", text: "Der natürliche Logarithmus ist die Umkehrfunktion der Exponentialfunktion zur Basis e." },
+    { id: "E7", text: "Beim Logarithmieren hebt sich die Exponentialfunktion auf (ln(e^k)=k)." }
+  ];
+
+  const bank = document.getElementById("bank");
+
+  function shuffle(arr){
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function makeCard(item){
+    const div = document.createElement("div");
+    div.className = "draggable";
+    div.draggable = true;
+    div.id = item.id;
+    div.dataset.eid = item.id;
+    div.setAttribute("aria-grabbed", "false");
+    div.textContent = item.text;
+
+    div.addEventListener("dragstart", (ev) => {
+      ev.dataTransfer.setData("text/plain", item.id);
+      div.setAttribute("aria-grabbed", "true");
+      setTimeout(() => div.style.opacity = "0.6", 0);
+    });
+
+    div.addEventListener("dragend", () => {
+      div.setAttribute("aria-grabbed", "false");
+      div.style.opacity = "1";
+    });
+
+    div.addEventListener("dblclick", () => {
+      bank.appendChild(div);
+      clearAllFeedback();
+      restorePlaceholders();
+    });
+
+    return div;
+  }
+
+  function restorePlaceholders(){
+    document.querySelectorAll(".dropzone").forEach(zone => {
+      const hasCard = zone.querySelector(".draggable");
+      const hasPlaceholder = zone.querySelector(".placeholder");
+      if (!hasCard && !hasPlaceholder){
+        const ph = document.createElement("span");
+        ph.className = "placeholder";
+        ph.textContent = "Ziehe hier die passende Erklärung hinein…";
+        zone.insertBefore(ph, zone.querySelector(".chip"));
+      }
+    });
+  }
+
+  function init(){
+    bank.innerHTML = "";
+    shuffle(EXPLANATIONS).forEach(it => bank.appendChild(makeCard(it)));
+
+    document.querySelectorAll(".dropzone").forEach(zone => {
+      zone.addEventListener("dragover", (ev) => { ev.preventDefault(); zone.classList.add("dragover"); });
+      zone.addEventListener("dragleave", () => zone.classList.remove("dragover"));
+      zone.addEventListener("drop", (ev) => {
+        ev.preventDefault();
+        zone.classList.remove("dragover");
+        const id = ev.dataTransfer.getData("text/plain");
+        const card = document.getElementById(id);
+        if (!card) return;
+
+        const existing = zone.querySelector(".draggable");
+        if (existing) bank.appendChild(existing);
+
+        zone.insertBefore(card, zone.querySelector(".chip"));
+
+        const ph = zone.querySelector(".placeholder");
+        if (ph) ph.remove();
+
+        clearAllFeedback();
+        restorePlaceholders();
+      });
+    });
+
+    // reset zones
+    document.querySelectorAll(".dropzone").forEach(zone => {
+      zone.innerHTML = '<span class="placeholder">Ziehe hier die passende Erklärung hinein…</span><span class="chip" aria-live="polite">—</span>';
+    });
+
+    clearAllFeedback();
+  }
+
+  function clearAllFeedback(){
+    document.querySelectorAll(".chip").forEach(ch => {
+      ch.textContent = "—";
+      ch.classList.remove("ok","bad");
+    });
+  }
+
+  function check(){
+    document.querySelectorAll(".step").forEach(step => {
+      const correct = step.dataset.correct;
+      const zone = step.querySelector(".dropzone");
+      const chip = step.querySelector(".chip");
+      const card = zone.querySelector(".draggable");
+
+      chip.classList.remove("ok","bad");
+
+      if (!card){
+        chip.textContent = "fehlt";
+        chip.classList.add("bad");
+        return;
+      }
+      const chosen = card.dataset.eid;
+      if (chosen === correct){
+        chip.textContent = "richtig";
+        chip.classList.add("ok");
+      } else {
+        chip.textContent = "falsch";
+        chip.classList.add("bad");
+      }
+    });
+  }
+
+  document.getElementById("checkBtn").addEventListener("click", check);
+  document.getElementById("resetBtn").addEventListener("click", init);
+
+  init();
+</script>
+</body>
+</html>
